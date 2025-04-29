@@ -3,8 +3,8 @@ FROM python:3-slim AS build
 #FROM python:slim-bookworm AS build
 
 #Written by COPILOT
-#docker build  -t test .
-#docker run -it --rm -p1310:1310 -v /home/colin/Music:/app/sound  --name=colin test
+#docker build -f Dockpy -t test .
+#docker run -it --rm --name=colin test
 #docker image rm test
 
 # This container is used to control the mpcserver on the laptop from this container
@@ -19,8 +19,7 @@ ENV PYTHONUNBUFFERED=1
 COPY requirements.txt . 
 RUN python -m pip install -r requirements.txt 
  
-RUN apt update && apt install -y gcc g++ zip unzip make patch git libtool bison dos2unix
-RUN apt install -y python3-dev libpcre2-dev
+RUN apt update && apt install -y gcc g++ zip unzip make patch git libtool bison dos2unix python3-dev libpcre2-dev
 WORKDIR /app 
 RUN mkdir /app/bin 
 ENV PATH=$PATH:/app/bin 
@@ -50,7 +49,7 @@ RUN make && make install
 
 WORKDIR /app
 RUN make -f makepythoncl SWIG=/root/SWIGcvs/SWIG/swig VER=3.11
-RUN ls *.i
 RUN make -f makepythoncl INTERFACE=BITAOPT SWIG=/root/SWIGcvs/SWIG/swig VER=3.11
-ENV LD_LIBRARY_PATH=/app
+#$(pwd) does not work here
+ENV LD_LIBRARY_PATH=/app 
 CMD ["python3","readmylog.py","logopt.log"]
