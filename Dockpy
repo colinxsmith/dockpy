@@ -7,8 +7,6 @@ FROM python:3-slim AS build
 #docker run -it --rm --name=colin test
 #docker image rm test
 
-# This container is used to control the mpcserver on the laptop from this container
-
 # Keeps Python from generating .pyc files in the container
 ENV PYTHONDONTWRITEBYTECODE=1 
  
